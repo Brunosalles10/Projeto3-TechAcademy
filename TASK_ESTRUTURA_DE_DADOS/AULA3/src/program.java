@@ -8,13 +8,13 @@ public class program {
     usuarios usuarios1 = new usuarios();
 
         System.out.println("informe seu nome ? ");
-        usuarios1.name = sc.next();
+        usuarios1.setName(sc.next());
         System.out.println("informe seu sobrenome ? ");
         usuarios1.sobrenome = sc.next();
         System.out.println("informe seu salario? ");
         usuarios1.salarios = sc.nextInt();
 
-        System.out.println("seu nome " + usuarios1.name + " "+ usuarios1.sobrenome + " salario R$"+ usuarios1.salarios);
+        System.out.println("seu nome " + usuarios1.getName() + " "+ usuarios1.sobrenome+ " salario R$"+ usuarios1.salarios);
     }
 }
 

@@ -2,12 +2,20 @@ import java.util.Date;
 
 public class usuarios {
     public String users;
-    public String name;
+    private String name;
     public String sobrenome;
     public Integer salarios;
     public Date dataNascimento;
 
     public usuarios() {
+    }
+
+    public usuarios(String users, String name, String sobrenome, Integer salarios, Date dataNascimento) {
+        this.users = users;
+        this.name = name;
+        this.sobrenome = sobrenome;
+        this.salarios = salarios;
+        this.dataNascimento = dataNascimento;
     }
 
     public String getUsers() {
@@ -50,3 +58,4 @@ public class usuarios {
         this.dataNascimento = dataNascimento;
     }
 }
+

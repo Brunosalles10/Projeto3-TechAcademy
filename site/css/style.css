@@ -41,32 +41,25 @@ label {
 
 .caixa-texto {
   background-color: #f0f0f0;
-  /* Cor de fundo clara */
   border: 2px solid #ad1995;
-  /* Borda com cor vibrante */
   border-radius: 10px;
-  /* Bordas arredondadas */
   font-family: 'Courier New', Courier, monospace;
   /* Fonte do textarea */
   font-size: 20px;
   color: #333;
   /* Cor do texto */
   padding: 15px;
-  /* Espaçamento interno */
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
   /* Sombra ao redor da caixa */
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   /* Animação suave */
 }
 
-/* Estado de foco na textarea */
+
 .caixa-texto:focus {
   border-color: #C70039;
-  /* Cor da borda ao focar */
   box-shadow: 0 0 10px rgba(199, 0, 57, 0.5);
-  /* Sombra mais intensa ao focar */
   outline: none;
-  /* Remove o outline padrão */
 }
 
 /* Animação de entrada para o título */
@@ -134,18 +127,13 @@ label {
 /* -------------------------INICIO DA CUSTOMIZAÇÃO DO BOTÃO */
 
 .btn {
-  border: 2px solid #ad1995;
-  
+  border: 2px solid #ad1995; 
   transition: background-color 0.3s ease, transform 0.3s ease;
-  /* Animação suave */
 }
 
 .btn:hover {
   background-color: #ad1995;
-  ;
-  /* Cor de fundo ao passar o mouse */
   transform: scale(1.15);
-  /* Aumenta levemente o tamanho do botão */
 }
 
 /* -------------------------FIM DA CUSTOMIZAÇÃO DO BOTÃO */

@@ -1,13 +1,14 @@
 package jogoPrincipal;
 
-public class item {
+public class Item {
+    private Integer idItem;
     private String nomeItem;
     private String descricaoItem;
 
-    public item() {
+    public Item() {
     }
 
-    public item(String nomeItem, String descricaoItem) {
+    public Item(Integer idItem,String nomeItem, String descricaoItem) {
         this.nomeItem = nomeItem;
         this.descricaoItem = descricaoItem;
     }
@@ -26,5 +27,13 @@ public class item {
 
     public void setDescricaoItem(String descricaoItem) {
         this.descricaoItem = descricaoItem;
+    }
+
+    public Integer getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(Integer idItem) {
+        this.idItem = idItem;
     }
 }

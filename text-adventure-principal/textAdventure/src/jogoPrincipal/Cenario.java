@@ -1,41 +1,72 @@
 package jogoPrincipal;
 
+import java.util.List;
+
 public class Cenario {
-    private Integer idCena;
-    private String descricao;
-    private int proximo_cenario_id;
+    private int idHistoria;
+    private String titulo;
+    private String conteudo;
+    private List<Item> itens;
+    private int jogadorId;
+    private int cenarioId;
 
     public Cenario() {
-
     }
 
-    public Cenario(Integer idcena, String descricao, int proximo_cenario_id) {
-        this.idCena = idcena;
-        this.descricao = descricao;
-        this.proximo_cenario_id = proximo_cenario_id;
+    public Cenario(int idHistoria, String titulo, String conteudo, List<Item> itens, int jogadorId, int cenarioId) {
+        this.idHistoria = idHistoria;
+        this.titulo = titulo;
+        this.conteudo = conteudo;
+        this.itens = itens;
+        this.jogadorId = jogadorId;
+        this.cenarioId = cenarioId;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public int getIdHistoria() {
+        return idHistoria;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setIdHistoria(int idHistoria) {
+        this.idHistoria = idHistoria;
     }
 
-    public int getProximo_cenario_id() {
-        return proximo_cenario_id;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setProximo_cenario_id(int proximo_cenario_id) {
-        this.proximo_cenario_id = proximo_cenario_id;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public Integer getIdcena() {
-        return idCena;
+    public String getConteudo() {
+        return conteudo;
     }
 
-    public void setIdcena(Integer idcena) {
-        this.idCena = idcena;
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
+
+    public int getJogadorId() {
+        return jogadorId;
+    }
+
+    public void setJogadorId(int jogadorId) {
+        this.jogadorId = jogadorId;
+    }
+
+    public int getCenarioId() {
+        return cenarioId;
+    }
+
+    public void setCenarioId(int cenarioId) {
+        this.cenarioId = cenarioId;
+    }
+
+    public List<Item> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<Item> itens) {
+        this.itens = itens;
     }
 }

@@ -1,41 +1,40 @@
 package repository;
+
 import jogoPrincipal.Cenario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CenarioDAO {
-    private final Connection connection;
-
+    private Connection connection;
     public CenarioDAO(Connection connection){
         this.connection = connection;
     }
 
+    public List<Cenario> getAllCenarios() throws Exception{
+        List<Cenario> cenarios = new ArrayList<>();
+        String sql = "SELECT id, titulo, conteudo, jogador_id, cenario_id FROM cenario";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
 
-    public  List<Cenario> getAllCenarios(Integer id) throws Exception {
-            List<Cenario> cenas = new ArrayList<>();
-            String sql = "select * from cenario where id = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-
-
-            while (rs.next()) {
-                Cenario cena = new Cenario();
-                cena.setIdcena(rs.getInt("id"));
-                cena.setDescricao(rs.getString("descricao"));
-                cena.setProximo_cenario_id(rs.getInt("proximo_cenario_id"));
-
-
-                cenas.add(cena);
-            }
-            rs.close();
-            stmt.close();
-            return cenas;
+        while (rs.next()){
+            Cenario cenario = new Cenario();
+            cenario.setIdHistoria(rs.getInt("id"));
+            cenario.setTitulo(rs.getString("titulo"));
+            cenario.setConteudo(rs.getString("conteudo"));
+            cenario.setJogadorId(rs.getInt("jogador_id"));
+            cenario.setCenarioId(rs.getInt("cenario_id"));
+            cenarios.add(cenario);
         }
-
+        rs.close();
+        stmt.close();
+        return cenarios;
     }
 
+    public Object getAllCenarios(Cenario cenarioId) {
+        return null;
+    }
+}

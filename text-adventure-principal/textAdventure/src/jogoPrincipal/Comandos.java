@@ -2,11 +2,11 @@ package jogoPrincipal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
+import repository.CenarioDAO;
 import repository.ItemDAO;
 import repository.SaveDAO;
-import repository.JogadorDAO;
-import repository.CenarioDAO;
+
 import java.sql.Connection;
 
 public class Comandos {
@@ -28,52 +28,50 @@ public class Comandos {
     }
 
 
-    public void processarComando(String comando) {
-        Scanner scanner = new Scanner(System.in);
+    public String processarComando(String comando) {
+        String resultado = "";
 
         switch (comando.toUpperCase()) {
             case "HELP":
-                exibirMenuAjuda();
+                resultado = exibirMenuAjuda();
                 break;
             case "USE ITEM":
-                System.out.println("Digite o nome do item para usar:");
-                String item = scanner.nextLine();
-                usarItem(item);
+                resultado = usarItem();
                 break;
             case "CHECK":
-                checkDescricaoCena();
+                resultado = checkDescricaoCena();
                 break;
             case "GET":
-                System.out.println("Digite o nome do item para pegar:");
-                String itemNome = scanner.nextLine();
-                pegarItem(itemNome);
+                resultado = pegarItem();
                 break;
             case "INVENTÁRIO":
-                exibirInventario();
+                resultado = exibirInventario();
                 break;
             case "USE":
-                System.out.println("Digite o nome do item para usar:");
-                String itemDoInventario = scanner.nextLine();
-                usarItemInventario(itemDoInventario);
+                resultado = usarItemInventario();
                 break;
             case "SAVE":
-                salvarJogo();
+                resultado = salvarJogo();
                 break;
             case "LOAD":
-                carregarJogo();
+                resultado = carregarJogo();
                 break;
             case "RESTART":
-                reiniciarJogo();
+                resultado = reiniciarJogo();
                 break;
             default:
-                System.out.println("Comando não reconhecido.");
+                resultado = "Comando não reconhecido.";
                 break;
         }
+
+        return resultado;
     }
 
+
+
     // Exibe o menu de ajuda
-    private void exibirMenuAjuda() {
-        System.out.println("Comandos disponíveis:\n" +
+    private String exibirMenuAjuda() {
+        return "Comandos disponíveis:\n" +
                 "• HELP: exibe o menu de ajuda do jogo\n" +
                 "• USE ITEM: interage com o item da cena\n" +
                 "• CHECK: mostra a descrição do objeto na cena\n" +
@@ -82,36 +80,37 @@ public class Comandos {
                 "• USE: realiza a ação utilizando um item do inventário\n" +
                 "• SAVE: salva o jogo\n" +
                 "• LOAD: carrega um jogo salvo\n" +
-                "• RESTART: reinicia o jogo");
+                "• RESTART: reinicia o jogo";
     }
 
     // Usar um item na cena
-    private void usarItem(String nomeItem) {
+    private String usarItem(String nomeItem) {
         try {
             List<Item> item = itemDAO.findItemByName(nomeItem);
 
             if (item != null) {
-                System.out.println("Você usou o item: " + " ");
-                // Lógica para usar o item
+                return "Você usou o item: " + " ";
+
             } else {
-                System.out.println("Item não encontrado.");
+               return "Item não encontrado.";
             }
         } catch (Exception e) {
-            System.out.println("Erro ao usar o item: " + e.getMessage());
+            return "Erro ao usar o item: " + e.getMessage();
         }
+
     }
 
     // Mostrar descrição da cena atual
-    private void checkDescricaoCena() {
+    private String checkDescricaoCena() {
         try {
-            List<Cenario> cenario = cenarioDAO. getAllCenarios(jogador.getIdNome());
-            if (cenario != null) {
-                System.out.println("Descrição da cena: " + " ");
+            Cenario cenarioAtual = (Cenario) cenarioDAO.getAllCenarios(jogador.getCenario_id());
+            if (cenarioAtual!= null) {
+                return "Descrição da cena: " + cenarioAtual.getConteudo();
             } else {
-                System.out.println("Cenário não encontrado.");
+                return "Cenário não encontrado.";
             }
         } catch (Exception e) {
-            System.out.println("Erro ao buscar descrição da cena: " + e.getMessage());
+            return "Erro ao buscar descrição da cena: " + e.getMessage();
         }
     }
 
@@ -156,10 +155,10 @@ public class Comandos {
     private void salvarJogo() {
         try {
             Save save = new Save();
-            save.setJogadorId(jogador.getIdNome());
-            save.setCenarioId(jogador.getIdNome());
+            save.setJogadorId(jogador.getId());
+            save.setCenarioId(jogador.getId());
             save.setItens(inventario);
-            saveDAO.insertSave(save);
+            saveDAO.salvarprogesso(save);
             System.out.println("Jogo salvo com sucesso.");
         } catch (Exception e) {
             System.out.println("Erro ao salvar o jogo: " + e.getMessage());
@@ -169,9 +168,9 @@ public class Comandos {
     // Carregar um jogo salvo
     private void carregarJogo() {
         try {
-            Save save = saveDAO.findSaveById(jogador.getIdNome());
+            Save save = saveDAO.loadsave(jogador.getId());
             if (save != null) {
-                jogador.setIdNome(save.getCenarioId());
+                jogador.setId(save.getCenarioId());
                 inventario = save.getItens();
                 System.out.println("Jogo carregado com sucesso.");
             } else {
@@ -184,7 +183,7 @@ public class Comandos {
 
     // Reiniciar o jogo
     private void reiniciarJogo() {
-        jogador.setIdNome(1); // Exemplo: volta ao cenário inicial
+        jogador.setId(1);
         inventario.clear();
         System.out.println("Jogo reiniciado.");
     }

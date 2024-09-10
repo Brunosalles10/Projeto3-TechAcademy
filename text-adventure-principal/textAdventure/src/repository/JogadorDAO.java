@@ -24,7 +24,7 @@ public class JogadorDAO {
 
         while (rs.next()){
             Jogador jogador = new Jogador();
-            jogador.setIdNome(rs.getInt("id"));
+            jogador.setId(rs.getInt("id"));
             jogador.setNome(rs.getString("nome"));
 
             jogadores.add(jogador);

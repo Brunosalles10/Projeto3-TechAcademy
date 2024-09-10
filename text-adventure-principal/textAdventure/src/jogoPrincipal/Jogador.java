@@ -1,24 +1,33 @@
 package jogoPrincipal;
 
-import java.util.List;
-
 public class Jogador {
-    private Integer idNome;
+    private int id;
     private String nome;
+    private Cenario cenario_id;
 
     public Jogador() {
     }
 
-    public Jogador(Integer idNome,String nome) {
+    public Jogador(int id, String nome, Cenario cenario_id) {
+        this.id = id;
         this.nome = nome;
+        this.cenario_id = cenario_id;
     }
 
-    public Integer getIdNome() {
-        return idNome;
+    public Cenario getCenario_id() {
+        return cenario_id;
     }
 
-    public void setIdNome(Integer idNome) {
-        this.idNome = idNome;
+    public void setCenario_id(Cenario cenario_id) {
+        this.cenario_id = cenario_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -28,7 +37,4 @@ public class Jogador {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-
-
 }

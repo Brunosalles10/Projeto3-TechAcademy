@@ -1,4 +1,5 @@
 package repository;
+
 import com.google.gson.Gson;
 import jogoPrincipal.Item;
 import jogoPrincipal.Save;
@@ -17,22 +18,25 @@ public class SaveDAO {
         this.conn = conn;
     }
 
-    //Metodo para salvar o progesso
-    public void insertSave(Save save) throws SQLException {
-        String sql = "INSERT INTO save(jogador_id, cenario_id, itens) VALUES (?, ?, ?)";
+
+    public void salvarprogesso(Save save) throws SQLException {
+        String sql = "INSERT INTO save(jogador_id, cenario_id, itens) VALUES (?, ?, ?);";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, save.getJogadorId());
             stmt.setInt(2, save.getCenarioId());
             stmt.setString(3, gson.toJson(save.getItens()));
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao  salvar: " + e.getMessage(), e);
         }
+
     }
 
-    //recupera um save pelo id
-    public Save findSaveById(int id) throws SQLException {
+
+    public Save loadsave(int saveId) throws SQLException {
         String sql = "SELECT * FROM save WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setInt(1, saveId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Save save = new Save();
@@ -43,31 +47,15 @@ public class SaveDAO {
                     save.setDataSave(rs.getString("data_save"));
                     return save;
                 }
+            } catch (SQLException e) {
+
+                System.err.println("Erro ao carregar! " + e.getMessage());
             }
         }
         return null;
     }
 
-    //lista todos os saves de u, jogador especifico
-    public List<Save> findAllSavesByJogador(int jogadorId) throws SQLException {
-        String sql = "SELECT * FROM save WHERE jogador_id = ?";
-        List<Save> saves = new ArrayList<>();
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, jogadorId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Save save = new Save();
-                    save.setId(rs.getInt("id"));
-                    save.setJogadorId(rs.getInt("jogador_id"));
-                    save.setCenarioId(rs.getInt("cenario_id"));
-                    save.setItens(gson.fromJson(rs.getString("itens"), List.class));
-                    save.setDataSave(rs.getString("data_save"));
-                    saves.add(save);
-                }
-            }
-        }
-        return saves;
-    }
 }
+
 

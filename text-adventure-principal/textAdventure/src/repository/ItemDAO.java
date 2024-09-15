@@ -1,46 +1,48 @@
 package repository;
 
 import jogoPrincipal.Item;
+import jogoPrincipal.Cenario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDAO {
 
-    private final Connection connection;
-
-    public ItemDAO(Connection connection) {
-        this.connection = connection;
+    public static Item findItemById(Integer id) {
+        return new Item();
     }
 
 
-    public List<Item> findItemByName(String nome) throws Exception {
-        List<Item> items = new ArrayList<>();
-        String sql = "SELECT * FROM item WHERE nome = ?";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setString(1, nome);
-        ResultSet rs = stmt.executeQuery();
+    public static List<Item> findItensByScene(Cenario cena) throws SQLException {
+        Connection connection = Mysql.getConnection();
+        String sql = "select * from item i where cenario_id = ?;";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, cena.getIdCena());
+        ResultSet resultSet = ps.executeQuery();
 
-        while (rs.next()) {
+        List<Item> itens = new ArrayList<>();
+        while (resultSet.next()) {
             Item item = new Item();
-            item.setIdItem(rs.getInt("id"));
-            item.setNomeItem(rs.getString("nome"));
-            item.setDescricaoItem(rs.getString("descricao"));
+            item.setIdItem(resultSet.getInt("id"));
+            item.setNome(resultSet.getString("nome"));
+            item.setDescricaoPositiva(resultSet.getString("titulo"));
+            item.setDescricaoNegativa(resultSet.getString("tipo"));
+            item.setIdCenaAtual(resultSet.getInt("cenario_id"));
+            // preencher o restante das propriedades
 
-            items.add(item);
+            Integer idCenaAtual = resultSet.getInt("cenario_id");
 
+            item.setIdCenaAtual(idCenaAtual);
+
+            itens.add(item);
         }
 
-        rs.close();
-        stmt.close();
-        return items;
+        return itens;
+    }
 
 
     }
-}
+
 
 

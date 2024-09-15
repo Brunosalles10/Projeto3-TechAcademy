@@ -5,62 +5,31 @@ import java.util.List;
 public class Save {
 
 
-    private int id;
-    private int jogadorId;
-    private int cenarioId;
-    private List<Item> itens;
-    private String dataSave;
+    private Integer idSave;
+    private Cenario cenaAtual;
 
-    public Save(int id, int jogadorId, int cenarioId, List<Item> itens, String dataSave) {
-        this.id = id;
-        this.jogadorId = jogadorId;
-        this.cenarioId = cenarioId;
-        this.itens = itens;
-        this.dataSave = dataSave;
+    public Integer getIdSave() {
+        return idSave;
     }
 
-    public Save() {
-
+    public void setIdSave(Integer idSave) {
+        this.idSave = idSave;
     }
 
-    public int getId() {
-        return id;
+    public Cenario getCenaAtual() {
+        return cenaAtual;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCenaAtual(Cenario cenaAtual) {
+        this.cenaAtual = cenaAtual;
     }
 
-    public int getJogadorId() {
-        return jogadorId;
-    }
-
-    public void setJogadorId(int jogadorId) {
-        this.jogadorId = jogadorId;
-    }
-
-    public int getCenarioId() {
-        return cenarioId;
-    }
-
-    public void setCenarioId(int cenarioId) {
-        this.cenarioId = cenarioId;
-    }
-
-    public List<Item> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<Item> itens) {
-        this.itens = itens;
-    }
-
-    public String getDataSave() {
-        return dataSave;
-    }
-
-    public void setDataSave(String dataSave) {
-        this.dataSave = dataSave;
+    @Override
+    public String toString() {
+        return "Save{" +
+                "idSave=" + idSave +
+                ", cenaAtual=" + cenaAtual +
+                '}';
     }
 }
 

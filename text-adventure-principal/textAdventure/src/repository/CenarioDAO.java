@@ -1,40 +1,58 @@
 package repository;
 
 import jogoPrincipal.Cenario;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CenarioDAO {
-    private Connection connection;
-    public CenarioDAO(Connection connection){
-        this.connection = connection;
-    }
 
-    public List<Cenario> getAllCenarios() throws Exception{
-        List<Cenario> cenarios = new ArrayList<>();
-        String sql = "SELECT id, titulo, conteudo, jogador_id, cenario_id FROM cenario";
-        PreparedStatement stmt = connection.prepareStatement(sql);
+    public static Cenario findCenaById(Integer id) throws SQLException {
+        Connection conn = Mysql.getConnection();
+        String sql = "SELECT * FROM cenario WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
+        Cenario cena = new Cenario();
 
-        while (rs.next()){
-            Cenario cenario = new Cenario();
-            cenario.setIdHistoria(rs.getInt("id"));
-            cenario.setTitulo(rs.getString("titulo"));
-            cenario.setConteudo(rs.getString("conteudo"));
-            cenario.setJogadorId(rs.getInt("jogador_id"));
-            cenario.setCenarioId(rs.getInt("cenario_id"));
-            cenarios.add(cenario);
+        if (rs.next()) {
+            cena.setIdCena(
+                    rs.getInt("id")
+            );
+            cena.setDescricao(rs.getString("conteudo"));
         }
-        rs.close();
-        stmt.close();
-        return cenarios;
+        return cena;
     }
 
-    public Object getAllCenarios(Cenario cenarioId) {
-        return null;
+    public static void insertCena(Cenario cena) throws SQLException {
+        Connection connection = Mysql.getConnection();
+        String insert = "INSERT INTO cenario(conteudo) VALUES (?);";
+        PreparedStatement ps = connection.prepareStatement(insert);
+        ps.setString(1, cena.getDescricao());
+        ps.execute();
     }
+
+    public static List<Cenario> findAll() throws SQLException {
+        Connection connection = Mysql.getConnection();
+        String sql = "select * from cenario;";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet resultSet = ps.executeQuery();
+
+        List<Cenario> cenas = new ArrayList<>();
+        while (resultSet.next()) {
+            Cenario cena = new Cenario();
+            cena.setIdCena(resultSet.getInt("id"));
+            cena.setDescricao(resultSet.getString("conteudo"));
+
+            cenas.add(cena);
+        }
+        return cenas;
+    }
+
+
+
 }

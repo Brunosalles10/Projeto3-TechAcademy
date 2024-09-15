@@ -3,63 +3,24 @@ package jogoPrincipal;
 import java.util.List;
 
 public class Cenario {
-    private int idHistoria;
-    private String titulo;
-    private String conteudo;
+    private Integer idCena;
+    private String descricao;
     private List<Item> itens;
-    private int jogadorId;
-    private int cenarioId;
 
-    public Cenario() {
+    public Integer getIdCena() {
+        return idCena;
     }
 
-    public Cenario(int idHistoria, String titulo, String conteudo, List<Item> itens, int jogadorId, int cenarioId) {
-        this.idHistoria = idHistoria;
-        this.titulo = titulo;
-        this.conteudo = conteudo;
-        this.itens = itens;
-        this.jogadorId = jogadorId;
-        this.cenarioId = cenarioId;
+    public void setIdCena(Integer idCena) {
+        this.idCena = idCena;
     }
 
-    public int getIdHistoria() {
-        return idHistoria;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setIdHistoria(int idHistoria) {
-        this.idHistoria = idHistoria;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getConteudo() {
-        return conteudo;
-    }
-
-    public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
-    }
-
-    public int getJogadorId() {
-        return jogadorId;
-    }
-
-    public void setJogadorId(int jogadorId) {
-        this.jogadorId = jogadorId;
-    }
-
-    public int getCenarioId() {
-        return cenarioId;
-    }
-
-    public void setCenarioId(int cenarioId) {
-        this.cenarioId = cenarioId;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public List<Item> getItens() {
@@ -68,5 +29,13 @@ public class Cenario {
 
     public void setItens(List<Item> itens) {
         this.itens = itens;
+    }
+
+    @Override
+    public String toString() {
+        return "Cena{" +
+                "idCena=" + idCena +
+                ", descricao='" + descricao + '\'' +
+                '}';
     }
 }

@@ -1,6 +1,7 @@
 package repository;
 
 import jogoPrincipal.Cenario;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,8 +22,7 @@ public class CenarioDAO {
 
         if (rs.next()) {
             cena.setIdCena(
-                    rs.getInt("id")
-            );
+                    rs.getInt("id"));
             cena.setDescricao(rs.getString("conteudo"));
         }
         return cena;
@@ -52,7 +52,6 @@ public class CenarioDAO {
         }
         return cenas;
     }
-
 
 
 }

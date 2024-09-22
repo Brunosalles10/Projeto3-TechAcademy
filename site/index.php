@@ -2,7 +2,7 @@
 
 //session_start();
 
-if (isset($_GET['comando']) && isset($_GET['save'])) {
+if ($_GET['comando'] && $_GET['save']) {
     $comando = rawurlencode($_GET['comando']);
     $save = rawurlencode($_GET['save']);
     $conteudo = file_get_contents("http://localhost:4567/{$comando}/{$save}");
@@ -21,4 +21,3 @@ $arrayAssociativo = json_decode($conteudo);
 
 
 include "template.phtml";
-?>

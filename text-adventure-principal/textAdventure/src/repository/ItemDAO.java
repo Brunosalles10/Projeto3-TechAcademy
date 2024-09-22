@@ -16,7 +16,7 @@ public class ItemDAO {
 
     public static List<Item> findItensByScene(Cenario cena) throws SQLException {
         Connection connection = Mysql.getConnection();
-        String sql = "select * from item i where cenario_id = ?;";
+        String sql = "select * from item i where id = ?;";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setInt(1, cena.getIdCena());
         ResultSet resultSet = ps.executeQuery();
@@ -26,10 +26,10 @@ public class ItemDAO {
             Item item = new Item();
             item.setIdItem(resultSet.getInt("id"));
             item.setNome(resultSet.getString("nome"));
-            item.setDescricaoPositiva(resultSet.getString("titulo"));
+            item.setDescricaoPositiva(resultSet.getString("nome"));
             item.setDescricaoNegativa(resultSet.getString("tipo"));
             item.setIdCenaAtual(resultSet.getInt("cenario_id"));
-            // preencher o restante das propriedades
+
 
             Integer idCenaAtual = resultSet.getInt("cenario_id");
 
@@ -42,7 +42,30 @@ public class ItemDAO {
     }
 
 
+    public static List<Item> getItensInventario() throws SQLException {
+        List<Item> iten = new ArrayList<>();
+        try {
+        Connection connection = Mysql.getConnection();
+        String sql = "Select * from item;";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+
+       while (rs.next()) {
+           Item itens = new Item();
+             itens.setIdItem(
+                    rs.getInt("id"));
+           itens.setDescricaoPositiva(rs.getString("nome"));
+        }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return iten;
     }
+}
+
+
+
 
 
 

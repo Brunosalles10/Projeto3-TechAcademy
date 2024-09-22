@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  font-size: 16px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+/* INICIO EDIÇÃO IMAGEM */
+
+#imagem-telainteira {
+  width: 100vw;
+  height: 100vh;
+  background: url('../imagens/espaço-1923x1083.jpg');
+  background-size: cover;
+
+
+}
+/* FIM EDIÇÃO IMAGEM */
+
+/* -----------------------------INICIO CONTEUDO CAIXA DE TEXTO */
+h1 {
+  padding-top: 5px;
+  color: rgb(223, 223, 234);
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #ad1995;
+  margin-bottom: 20px;
+}
+
+
+
+label {
+  color: rgb(223, 223, 234);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px #ad1995;
+}
+
+
+.caixa-texto {
+  background-color: #f0f0f0;
+  border: 2px solid #ad1995;
+  border-radius: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  /* Fonte do textarea */
+  font-size: 20px;
+  color: #333;
+  /* Cor do texto */
+  padding: 15px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+  /* Sombra ao redor da caixa */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  /* Animação suave */
+}
+
+
+.caixa-texto:focus {
+  border-color: #C70039;
+  box-shadow: 0 0 10px rgba(199, 0, 57, 0.5);
+  outline: none;
+}
+
+/* Animação de entrada para o título */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.titulo-jogo {
+  animation: fadeInDown 5s ease;
+}
+
+/* --------------------------FIM DA EDIÇÃO DA CAIXA DE TEXTO  */
+
+
+/* -------------------------INICIO DO NAVBAR */
+.navbar .nav-link {
+  font: 22px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.navbar .nav-link:hover {
+  color: #ad1995;
+}
+
+.navbar .dropdown-menu {
+  background: black;
+  border-radius: 0;
+  border-top: 5px solid #ad1995;
+}
+
+.navbar .dropdown-menu .dropdown-item {
+  font: 20px;
+  text-transform: uppercase;
+  color: #ad1995;
+}
+
+.navbar .navbar-brand {
+  color: white;
+}
+
+.navbar .navbar-brand:hover {
+  color: #ad1995;
+}
+
+.navbar .navbar-toggler {
+  color: #ad1995;
+}
+
+.navbar-pizza {
+  background-color: transparent;
+}
+
+/* ------------------------- FIM DO NAVBAR */
+
+
+/* -------------------------INICIO DA CUSTOMIZAÇÃO DO BOTÃO */
+
+.btn {
+  border: 2px solid #ad1995; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ad1995;
+  transform: scale(1.15);
+}
+
+/* -------------------------FIM DA CUSTOMIZAÇÃO DO BOTÃO */
+
+/* Media query para dispositivos móveis */
+@media (max-width: 767px) {
+  .navbar-pizza {
+    background-color: rgb(19, 18, 18);
+    /* Cor  para a navbar em dispositivos móveis */
+  }
+}

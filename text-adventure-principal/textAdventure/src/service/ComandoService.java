@@ -7,9 +7,8 @@ import jogoPrincipal.Save;
 import repository.CenarioDAO;
 import repository.ItemDAO;
 import repository.SaveDAO;
-
 import java.sql.SQLException;
-import java.util.List;
+
 
 
 public class ComandoService {
@@ -28,7 +27,7 @@ public class ComandoService {
         console.setMensagem("HELP: exbibe os comandos possiveis do jogo \n" +
                 "• START: Inicia o jogo\n" +
                 "• USE: Usa algum dos  itens disponiveis\n" +
-                "• CHECK: mostra a descrição do objeto na cena\n" +
+                "• CHECK: mostra a descrição de itens ou objetos do jogo\n" +
                 "• GET : Pega o item e adiciona ao inventário\n" +
                 "• INVENTORY: mostra os itens que estão no inventário\n" +
                 "• USE [INVENTORY_ITEM] WITH [SCENE_ITEM]: Realiza a ação utilizando um item do " +
@@ -91,18 +90,26 @@ public class ComandoService {
     public Console check() {
         try {
             if (comando.length < 2) {
-                console.setMensagem("Check: comando incompleto. Exemplo: CHECK");
+                console.setMensagem("Check: comando incompleto. Exemplo:check-laser");
                 return console;
+            } else if (comando[1].equalsIgnoreCase("chave-y")) {
+                Item item = ItemDAO.checkItensInventario(4);
+                console.setMensagem(" " + item.getNome());
+            } else if (comando[1].equalsIgnoreCase("chave-eletronica")) {
+                Item item = ItemDAO.checkItensInventario(2);
+                console.setMensagem(" " + item.getNome());
+
+            } else if (comando[1].equalsIgnoreCase("laser")) {
+                Item item = ItemDAO.checkItensInventario(1);
+                console.setMensagem(" " + item.getNome());
+            } else if (comando[1].equalsIgnoreCase("laser-y")) {
+                Item item = ItemDAO.checkItensInventario(5);
+                console.setMensagem(item.getNome());
+            } else if (comando[1].equalsIgnoreCase("traje")) {
+                Item item = ItemDAO.checkItensInventario(6);
+                console.setMensagem(item.getNome());
             }
 
-            String itemName = comando[1];
-            Item item = ItemDAO.findItemById(Integer.valueOf(itemName));
-
-            if (item != null) {
-                console.setMensagem("Descrição do item: " + item.getDescricaoPositiva());
-            } else {
-                console.setMensagem("Item não encontrado na cena.");
-            }
         } catch (Exception e) {
             e.printStackTrace();
             console.setMensagem("Erro ao tentar checar o item.");
@@ -132,18 +139,8 @@ public class ComandoService {
     }
 
     public Console inventory() {
-        console.setMensagem("Mostrando itens no inventário...");
         try {
-            List<Item> itensInventario = ItemDAO.getItensInventario(); // Implementa a recuperação de itens do inventário do jogador
-            if (itensInventario.isEmpty()) {
-                console.setMensagem("Seu inventário está vazio.");
-            } else {
-                StringBuilder inventarioMensagem = new StringBuilder("Itens no seu inventário:\n");
-                for (Item item : itensInventario) {
-                    inventarioMensagem.append("- ").append(item.getNome()).append(": ").append(item.getDescricaoPositiva()).append("\n");
-                }
-                console.setMensagem(inventarioMensagem.toString());
-            }
+            console.setMensagem("Mostrando itens no inventário...");
         } catch (Exception e) {
             console.setMensagem("Erro ao listar os itens do inventário.");
         }

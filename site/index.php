@@ -1,6 +1,7 @@
 <?php
 
-//session_start();
+session_start();
+
 
 if (isset($_GET['comando']) && isset($_GET['save'])) {
     $comando = rawurlencode($_GET['comando']);
@@ -12,12 +13,18 @@ if (isset($_GET['comando']) && isset($_GET['save'])) {
 } else {
     $conteudo = file_get_contents("http://localhost:4567");
 }
-
-
 $arrayAssociativo = json_decode($conteudo);
 
+if (isset($arrayAssociativo->mensagem)) {
+    if (!isset($_SESSION['historico'])) {
+        $_SESSION['historico'] = ''; 
+    }
+    $_SESSION['historico'] .= $arrayAssociativo->mensagem . "\n\n\n";
+}
 
-//$_SESSION['historico'] = isset($_SESSION['historico']) ? array_merge($_SESSION['historico'], $arrayAssociativo->messages) : [];
+if (isset($_GET['reset'])) {
+    unset($_SESSION['historico']);
+}
 
 
 include "template.phtml";

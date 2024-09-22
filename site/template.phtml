@@ -61,10 +61,9 @@
       <h1 class="text-center titulo-jogo ">JORNADA DE JASPER</h1>
       <br>
       <div class="mb-5" >
-      
+      <p><?= $arrayAssociativo->mensagem ?></p>
         <label for="comandoInput" class="form-label "> Digite HELP para exibir os comandos....</label>
         <textarea class="caixa-texto form-control" id="resposta" name="resposta" rows="15" readonly>
-        <?= $arrayAssociativo->mensagem ?>
         
         </textarea>
         
@@ -72,26 +71,24 @@
 
 
       <div class="text-center">
-     
-      
-           
+     <form action="index.php" method="get">
       <div class="form-group">
-            <form>
+           
                 <input type="text" name="comando"/>
-                
-                <button type="submit" type="button" class="btn btn-secondary btn-lg" >ENVIAR</button>
+                <input type="text" name="save" value="<?= $arrayAssociativo->idSave ?>" readonly/>
+                <input type="submit"/>
+                <button type="button" class="btn btn-secondary btn-lg" id="enviarComandoBtn">ENVIAR</button>
+      </div>
             </form>
         </div>
-
         
       
+      </div>
       
 
 
 
     </div>
-
-
   </div>
   <!--FIM DA AREA PRINCIPAL-->
 

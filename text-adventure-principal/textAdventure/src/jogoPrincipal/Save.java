@@ -1,6 +1,5 @@
 package jogoPrincipal;
 
-import java.util.List;
 
 public class Save {
 

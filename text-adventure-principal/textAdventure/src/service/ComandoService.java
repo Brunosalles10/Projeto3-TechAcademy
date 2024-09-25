@@ -7,8 +7,9 @@ import jogoPrincipal.Save;
 import repository.CenarioDAO;
 import repository.ItemDAO;
 import repository.SaveDAO;
-import java.sql.SQLException;
 
+import java.sql.SQLException;
+import java.util.List;
 
 
 public class ComandoService {
@@ -27,11 +28,10 @@ public class ComandoService {
         console.setMensagem("HELP: exbibe os comandos possiveis do jogo \n" +
                 "• START: Inicia o jogo\n" +
                 "• USE: Usa algum dos  itens disponiveis\n" +
-                "• CHECK: mostra a descrição de itens ou objetos do jogo\n" +
+                "• CHECK: mostra a descrição de itens,  ou objetos do jogo e acessa portas quando possível \n" +
                 "• GET : Pega o item e adiciona ao inventário\n" +
-                "• INVENTORY: mostra os itens que estão no inventário\n" +
-                "• USE [INVENTORY_ITEM] WITH [SCENE_ITEM]: Realiza a ação utilizando um item do " +
-                "inventário com um item da cena\n" +
+                "• INVENTORY: mostra os itens que foram pegos  nos cenários\n" +
+                "• USE_WITH mais nome dos itens: Realiza ação combinando itens se possível.\n" +
                 "• SAVE: salva o jogo\n" +
                 "• LOAD: carrega um jogo salvo\n" +
                 "• RESTART: reinicia o jogo");
@@ -60,13 +60,13 @@ public class ComandoService {
                 console.setMensagem("Especifique um item para usar.");
 
 
-            } else if (comando[1].equalsIgnoreCase("chave")) {
+            } else if (comando[1].equalsIgnoreCase("flipper")) {
                 Cenario cenario = CenarioDAO.findCenaById(2);
                 console.setMensagem(" " + cenario.getDescricao());
 
 
             } else if (comando[1].equalsIgnoreCase("laser")) {
-                Cenario cenario = CenarioDAO.findCenaById(3);
+                Cenario cenario = CenarioDAO.findCenaById(11);
                 console.setMensagem(" " + cenario.getDescricao());
             } else if (comando[1].equalsIgnoreCase("laser-y")) {
                 Cenario cenario = CenarioDAO.findCenaById(4);
@@ -108,6 +108,13 @@ public class ComandoService {
             } else if (comando[1].equalsIgnoreCase("traje")) {
                 Item item = ItemDAO.checkItensInventario(6);
                 console.setMensagem(item.getNome());
+            } else if (comando[1].equalsIgnoreCase("flipper")) {
+                Item item = ItemDAO.checkItensInventario(7);
+                console.setMensagem(item.getNome());
+
+            } else if (comando[1].equalsIgnoreCase("porta")) {
+                Cenario cenario = CenarioDAO.findCenaById(3);
+                console.setMensagem(cenario.getDescricao());
             }
 
         } catch (Exception e) {
@@ -117,20 +124,23 @@ public class ComandoService {
         return console;
     }
 
-    public Console get()
-    {
+    public Console get() {
         try {
             if (comando.length < 2) {
                 console.setMensagem("PEGAR ITEM!");
+
             } else if (comando[1].equalsIgnoreCase("laser-y")) {
                 Cenario cenario = CenarioDAO.findCenaById(7);
                 console.setMensagem(" " + cenario.getDescricao());
+                Item item = ItemDAO.addInventario(1, 1, 1, "laser-y");
             } else if (comando[1].equalsIgnoreCase("chave-y")) {
                 Cenario cenario = CenarioDAO.findCenaById(8);
                 console.setMensagem(" " + cenario.getDescricao());
+                Item item = ItemDAO.addInventario(1, 2, 1, "chave-y");
             } else if (comando[1].equalsIgnoreCase("chave-eletronica")) {
                 Cenario cenario = CenarioDAO.findCenaById(9);
                 console.setMensagem(" " + cenario.getDescricao());
+                Item item = ItemDAO.addInventario(1, 3, 1, "chave-eletronica");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -140,7 +150,29 @@ public class ComandoService {
 
     public Console inventory() {
         try {
-            console.setMensagem("Mostrando itens no inventário...");
+
+            if (comando.length < 2) {
+                console.setMensagem("Comando errado! inventory jogador");
+            } else if (comando[1].equalsIgnoreCase("jogador")) {
+                List<Item> inventario = ItemDAO.exibirInventario(1);
+                StringBuilder itensInventario = new StringBuilder("Itens pegos nos cenarios:\n");
+                for (Item item : inventario) {
+                    itensInventario.append("---------------------------------------------\n-")
+                            .append("Jogador ID: ").append(item.getIdItensJogador()).append("\n")
+                            .append("Nome item: ").append(item.getNome()).append("\n")
+                            .append("Quantidade: ").append(item.getQuantidade()).append("\n")
+                            .append("---------------------------------------------\n");
+
+                    console.setMensagem(itensInventario.toString());
+                }
+                if (inventario.isEmpty()) {
+                    console.setMensagem("inventário está vazio");
+                }
+
+
+            }
+
+
         } catch (Exception e) {
             console.setMensagem("Erro ao listar os itens do inventário.");
         }
@@ -150,7 +182,8 @@ public class ComandoService {
 
     public Console save() {
         try {
-            Save save = SaveDAO.novoJogo();
+
+            Save save = SaveDAO.novoJogo(1,1);
             console.setMensagem(save.getCenaAtual().getDescricao());
             console.setIdSave(save.getIdSave());
             console.setMensagem("Jogo salvo com sucesso");
@@ -163,9 +196,13 @@ public class ComandoService {
     }
 
     public Console load() {
-        try {
-
-            console.setMensagem("Jogo carregado com sucesso!");
+        try {if (comando.length < 2){
+            console.setMensagem("digite load jogador para carregar jogo");
+        } else if (comando[1].equalsIgnoreCase("jogador")) {
+            Save save = SaveDAO.carregarJogo(5);
+            console.setMensagem(" " + save.getIdSave());
+            console.setMensagem(" " + save.getCenaAtual());
+            console.setMensagem("Jogo carregado com sucesso!");}
         } catch (Exception e) {
             console.setMensagem("Erro ao carregar o jogo.");
         }
@@ -183,22 +220,33 @@ public class ComandoService {
         return console;
     }
 
+    public Console use_with(){
+        try{
+            if(comando.length < 2){
+                console.setMensagem(" use_with nome-item + nome-item para combinar os 2 itens, se possível");
+            } else if (comando[1].equalsIgnoreCase("flippermaischave")) {
+                Cenario cenario = CenarioDAO.findCenaById(10);
+                console.setMensagem(" " + cenario.getDescricao());
+
+            }
+
+        } catch (Exception e) {
+            console.setMensagem("Erro ao combinar itens");
+        }
+        return console;
+    }
+
 
     public Console getResultadoConsole() {
         try {
-            //A variável primeiroComando recebe a primeira posição
-            //do array comando.
             String primeiroComando = comando[0].toLowerCase();
-
-            //O comando switch irá testar o nome do primeiro comando.
-            //se o valor da variável for igual ao da sentença case
-            //iremos chamar o método para tratar sobre aquele comando.
             return switch (primeiroComando) {
                 case "help" -> help();
                 case "start" -> start();
                 case "use" -> use();
                 case "check" -> check();
                 case "get" -> get();
+                case "use_with" -> use_with();
                 case "inventory" -> inventory();
                 case "save" -> save();
                 case "load" -> load();

@@ -19,7 +19,7 @@ public class Main {
         //Rota 2 http://localhost:4567/{comando}/{save}
         Spark.get("/:comando/:save", new DuranteOJogoController(gson));
 
-        //Implemente mais rotas se precisar
+
 
     }
 }
